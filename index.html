@@ -108,6 +108,56 @@ footer{font-size:10px;font-weight:750}
   .tab{font-size:12px}.action{font-size:12px}
   .record small{font-size:12px}.tip{font-size:13px}
 }
+
+/* ALONSOTAP BLOOM + LESSONS */
+.lessons-section{margin:30px 0 12px}.lessons-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:16px}
+.lessons-head h2{font-size:clamp(26px,3vw,36px);font-weight:950;letter-spacing:-.05em;margin:8px 0 5px}
+.lessons-head p{margin:0;color:var(--muted);font-size:14px;font-weight:600;line-height:1.6}
+.lesson-progress{min-width:145px;text-align:right;color:var(--muted);font:11px var(--mono)}.lesson-progress b{display:block;color:var(--accent2);font-size:20px;margin-bottom:7px}
+.lesson-progress-bar{height:5px;border-radius:20px;background:#ffffff12;overflow:hidden;margin-top:8px}.lesson-progress-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:20px;transition:width .4s}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.lesson-card{position:relative;overflow:hidden;padding:20px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#171d2eee,#111522ee);box-shadow:0 14px 40px #0003;transition:.3s}
+.lesson-card:before{content:attr(data-flower);position:absolute;right:13px;top:3px;font-size:66px;color:var(--flower,#c4b5fd);opacity:.13;transform:rotate(15deg);pointer-events:none}
+.lesson-card:hover{transform:translateY(-4px);border-color:#a78bfa77;box-shadow:0 18px 45px #8b5cf622}
+.lesson-number{font:11px var(--mono);letter-spacing:.13em;color:var(--accent2)}.lesson-card h3{font-size:19px;font-weight:900;margin:10px 0 7px}
+.lesson-card p{font-size:13px;color:var(--muted);line-height:1.65;margin:0 0 16px}.lesson-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lesson-tag{font:10px var(--mono);color:#c4b5fd;background:#a78bfa15;border:1px solid #a78bfa30;padding:6px 9px;border-radius:30px}
+.lesson-done{color:var(--accent2);font-size:10px;font-weight:800}
+.lesson-modal{position:fixed;inset:0;z-index:60;display:none;place-items:center;padding:18px;background:#05070dcc;backdrop-filter:blur(13px)}.lesson-modal.show{display:grid;animation:fade .2s}
+.lesson-dialog{width:min(560px,100%);padding:26px;border:1px solid #a78bfa55;border-radius:22px;background:linear-gradient(145deg,#1b2031,#101522);box-shadow:0 25px 90px #000b;position:relative;overflow:hidden}
+.lesson-dialog:after{content:"✿";position:absolute;right:-15px;top:-35px;font-size:150px;color:var(--flower,#c4b5fd);opacity:.08;pointer-events:none}
+.lesson-dialog h2{font-size:28px;font-weight:950;letter-spacing:-.05em;margin:10px 0}.lesson-dialog p{color:#aab1c5;font-size:14px;line-height:1.8}
+.lesson-exercise{padding:15px;border:1px solid var(--line);border-radius:13px;background:#ffffff06;margin:17px 0;color:var(--text);font-size:15px;font-weight:750}
+.lesson-dialog-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.lesson-close{position:absolute;right:15px;top:13px;border:1px solid var(--line);background:#ffffff08;color:var(--text);border-radius:10px;width:35px;height:35px;cursor:pointer;font-size:18px;z-index:2}
+.corner-bloom{position:fixed;right:-58px;bottom:-68px;width:190px;height:190px;z-index:2;pointer-events:none;opacity:.22;filter:drop-shadow(0 0 22px var(--flower,#c4b5fd));animation:bloomFloat 8s ease-in-out infinite}
+.corner-bloom span{position:absolute;left:50%;top:50%;width:57px;height:86px;margin:-43px 0 0 -28px;border-radius:60% 60% 45% 45%;background:linear-gradient(160deg,var(--flower,#c4b5fd),#8b5cf6);transform-origin:50% 100%}
+.corner-bloom span:nth-child(1){transform:rotate(0deg) translateY(-18px)}.corner-bloom span:nth-child(2){transform:rotate(45deg) translateY(-18px)}
+.corner-bloom span:nth-child(3){transform:rotate(90deg) translateY(-18px)}.corner-bloom span:nth-child(4){transform:rotate(135deg) translateY(-18px)}
+.corner-bloom span:nth-child(5){transform:rotate(180deg) translateY(-18px)}.corner-bloom span:nth-child(6){transform:rotate(225deg) translateY(-18px)}
+.corner-bloom span:nth-child(7){transform:rotate(270deg) translateY(-18px)}.corner-bloom span:nth-child(8){transform:rotate(315deg) translateY(-18px)}
+.corner-bloom i{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff2a8,#f2b84b 65%,#c77d32)}
+@keyframes bloomFloat{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-12px)}}
+body.light .lesson-card{background:linear-gradient(145deg,#fff,#f4f1ff)}body.light .lesson-dialog{background:#fff}body.light .lesson-dialog p{color:var(--muted)}
+@media(max-width:650px){.lesson-grid{grid-template-columns:1fr}.lessons-head{align-items:flex-start;flex-direction:column}.lesson-progress{text-align:left}.corner-bloom{width:135px;height:135px;right:-55px;bottom:-55px;opacity:.15}.lesson-card{padding:17px}}
+
+
+/* Rose in the upper-left corner */
+.corner-bloom{position:fixed;left:-72px;top:-76px;right:auto;bottom:auto;width:205px;height:205px;z-index:0;pointer-events:none;opacity:.24;filter:drop-shadow(0 0 24px #f472b6);animation:roseSway 9s ease-in-out infinite}
+.corner-bloom span{width:63px;height:82px;margin:-41px 0 0 -31px;border-radius:52% 48% 58% 42%;background:radial-gradient(ellipse at 38% 30%,#ffd1e5 0%,#fb86b5 38%,#c02670 100%);box-shadow:inset -5px -7px 12px #83184d55;transform-origin:50% 92%}
+.corner-bloom span:nth-child(1){transform:rotate(0deg) translateY(-13px)}
+.corner-bloom span:nth-child(2){transform:rotate(45deg) translateY(-13px)}
+.corner-bloom span:nth-child(3){transform:rotate(90deg) translateY(-13px)}
+.corner-bloom span:nth-child(4){transform:rotate(135deg) translateY(-13px)}
+.corner-bloom span:nth-child(5){transform:rotate(180deg) translateY(-13px)}
+.corner-bloom span:nth-child(6){transform:rotate(225deg) translateY(-13px)}
+.corner-bloom span:nth-child(7){transform:rotate(270deg) translateY(-13px)}
+.corner-bloom span:nth-child(8){transform:rotate(315deg) translateY(-13px)}
+.corner-bloom i{width:30px;height:30px;margin:-15px;background:radial-gradient(circle at 35% 30%,#ffe4a8,#d97736 70%,#7f1d3d)}
+@keyframes roseSway{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(9px)}}
+.keyrow[data-layout="ru"] .key{min-width:0;font-size:7px;letter-spacing:-.08em}
+@media(max-width:650px){.corner-bloom{left:-85px;top:-88px;width:170px;height:170px;opacity:.17}}
+
 </style>
 </head>
 <body>
@@ -166,6 +216,18 @@ footer{font-size:10px;font-weight:750}
   </section>
 </aside>
 </div>
+
+<section class="lessons-section" id="lessons">
+ <div class="lessons-head"><div><div class="kicker">Растём шаг за шагом</div><h2>Уроки AlonsoTap <span style="color:var(--flower,#c4b5fd)">✿</span></h2><p>Короткие тренировки, полезные привычки и маленькие победы каждый день.</p></div>
+ <div class="lesson-progress"><b id="lessonCount">0 / 4</b>УРОКОВ ПРОЙДЕНО<div class="lesson-progress-bar"><i id="lessonProgressBar"></i></div></div></div>
+ <div class="lesson-grid">
+  <article class="lesson-card" data-flower="✿"><div class="lesson-number">УРОК 01 · СТАРТ</div><h3>Домашний ряд</h3><p>Научись находить базовое положение пальцев и возвращать их на нужные клавиши.</p><div class="lesson-bottom"><span class="lesson-tag">2–3 МИНУТЫ</span><button class="action primary lesson-open" data-lesson="0">Начать урок →</button></div></article>
+  <article class="lesson-card" data-flower="❀"><div class="lesson-number">УРОК 02 · ТОЧНОСТЬ</div><h3>Сначала без ошибок</h3><p>Поймай спокойный темп: точность важнее скорости, особенно в начале обучения.</p><div class="lesson-bottom"><span class="lesson-tag">3 МИНУТЫ</span><button class="action primary lesson-open" data-lesson="1">Начать урок →</button></div></article>
+  <article class="lesson-card" data-flower="✾"><div class="lesson-number">УРОК 03 · РИТМ</div><h3>Ровный поток</h3><p>Тренируй одинаковый темп, не делай резких ускорений и не зажимай кисти.</p><div class="lesson-bottom"><span class="lesson-tag">3–4 МИНУТЫ</span><button class="action primary lesson-open" data-lesson="2">Начать урок →</button></div></article>
+  <article class="lesson-card" data-flower="✽"><div class="lesson-number">УРОК 04 · ПРОКАЧКА</div><h3>Скорость без паники</h3><p>Постепенно увеличивай скорость, сохраняя чистый набор и уверенные движения.</p><div class="lesson-bottom"><span class="lesson-tag">5 МИНУТ</span><button class="action primary lesson-open" data-lesson="3">Начать урок →</button></div></article>
+ </div>
+</section>
+
 <footer><span>ALONSOTAP / BUILD YOUR RHYTHM</span><span>ТВОИ РЕЗУЛЬТАТЫ СОХРАНЯЮТСЯ НА ЭТОМ УСТРОЙСТВЕ</span></footer>
 </div>
 <div class="overlay" id="overlay"><div class="modal">
@@ -174,6 +236,10 @@ footer{font-size:10px;font-weight:750}
   <div class="modal-actions"><button class="action" id="closeModal">Закрыть</button><button class="action primary" id="nextTest">Ещё попытка →</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+
+<div class="corner-bloom" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><i></i></div>
+<div class="lesson-modal" id="lessonModal"><div class="lesson-dialog"><button class="lesson-close" id="lessonClose" aria-label="Закрыть">×</button><div class="kicker" id="lessonKicker">УРОК 01</div><h2 id="lessonTitle">Домашний ряд</h2><p id="lessonDescription"></p><div class="lesson-exercise" id="lessonExercise"></div><p id="lessonExtra"></p><div class="lesson-dialog-actions"><button class="action" id="lessonBack">Закрыть</button><button class="action primary" id="lessonComplete">Отметить пройденным ✓</button></div></div></div>
+
 <script>
 (()=>{
 const $=s=>document.querySelector(s);
@@ -199,13 +265,21 @@ function finish(){if(finished)return;finished=true;started=false;clearInterval(i
 function updateStats(){let best=history.length?Math.max(...history.map(x=>x.wpm)):0,avg=history.length?Math.round(history.reduce((s,x)=>s+x.wpm,0)/history.length):0,acc=history.length?Math.round(history.reduce((s,x)=>s+x.acc,0)/history.length):0;$('#heroBest').textContent=best||'—';$('#heroTests').textContent=history.length;$('#bestSide').innerHTML=(best||'—')+' <em>WPM</em>';$('#avgSide').innerHTML=(avg||'—')+' <em>WPM</em>';$('#testsSide').textContent=history.length;$('#accSide').innerHTML=(acc||'—')+' <em>%</em>';}
 function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800)}
 function beep(){if(!sound)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=660;g.gain.value=.018;o.start();o.stop(audioCtx.currentTime+.035)}catch(e){}}
-function buildKeyboard(){let rows=['qwertyuiop','asdfghjkl','zxcvbnm'];$('#keyboard').innerHTML='';rows.forEach(row=>{let r=document.createElement('div');r.className='keyrow';[...row].forEach(k=>{let e=document.createElement('div');e.className='key';e.dataset.key=k;e.textContent=k.toUpperCase();r.append(e)});$('#keyboard').append(r)});let r=document.createElement('div');r.className='keyrow';let space=document.createElement('div');space.className='key space';space.dataset.key=' ';space.textContent='SPACE';r.append(space);$('#keyboard').append(r)}
+function buildKeyboard(){
+ const rows=lang==='ru'?['йцукенгшщзхъ','фывапролджэ','ячсмитьбюё']:['qwertyuiop','asdfghjkl','zxcvbnm'];
+ $('#keyboard').innerHTML='';
+ rows.forEach(row=>{let r=document.createElement('div');r.className='keyrow';r.dataset.layout=lang;
+ [...row].forEach(k=>{let e=document.createElement('div');e.className='key';e.dataset.key=k;e.textContent=k.toUpperCase();r.append(e)});
+ $('#keyboard').append(r)});
+ let r=document.createElement('div');r.className='keyrow';let space=document.createElement('div');
+ space.className='key space';space.dataset.key=' ';space.textContent=lang==='ru'?'ПРОБЕЛ':'SPACE';r.append(space);$('#keyboard').append(r);
+}
 function updateKey(k){document.querySelectorAll('.key.active').forEach(e=>e.classList.remove('active'));let e=document.querySelector(`.key[data-key="${CSS.escape(k.toLowerCase())}"]`);if(e){e.classList.add('active');setTimeout(()=>e.classList.remove('active'),160)}}
 $('#promptWrap').addEventListener('click',()=>{$('#input').focus()});
 $('#input').addEventListener('input',e=>{if(finished)return;let val=e.target.value;if(val.length>target.length){val=val.slice(0,target.length);e.target.value=val}if(val.length&&!started)start();typed=val;totalTyped=typed.length;errors=0;correctChars=0;for(let i=0;i<typed.length;i++){if(typed[i]===target[i])correctChars++;else errors++}metrics();renderPrompt();let last=typed.slice(-1);if(last)updateKey(last);if(typed.length===target.length){if(mode==='words'){target+= ' '+generate();renderPrompt()}else finish()}});
 $('#input').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();reset()}});
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));mode=b.dataset.mode;reset()});
-document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('active',x===b));lang=b.dataset.lang;reset()});
+document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('active',x===b));lang=b.dataset.lang;buildKeyboard();reset()});
 document.querySelectorAll('[data-duration]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-duration]').forEach(x=>x.classList.toggle('active',x===b));duration=Number(b.dataset.duration);reset()});
 $('#restart').onclick=reset;$('#startBtn').onclick=start;$('#closeModal').onclick=()=>$('#overlay').classList.remove('show');$('#nextTest').onclick=()=>{$('#overlay').classList.remove('show');reset();start()};
 $('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')$('#overlay').classList.remove('show')});
@@ -221,6 +295,25 @@ document.addEventListener('click',e=>{if(!e.target.closest('.flower-wrap')){flow
 document.querySelectorAll('.flower-option').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.flower-option').forEach(x=>x.classList.toggle('active',x===b));document.body.classList.remove('flower-violet','flower-rose','flower-mint');document.body.classList.add('flower-'+b.dataset.flower);flowerMenu.classList.remove('open');flowerBtn.setAttribute('aria-expanded','false');makePetal();}));
 function makePetal(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const p=document.createElement('span');p.className='flower-petal';p.textContent=rand(['✿','❀','✾','✽']);p.style.left=(8+Math.random()*84)+'vw';p.style.setProperty('--drift',(Math.random()*150-75)+'px');p.style.animationDuration=(5+Math.random()*4)+'s';document.body.append(p);setTimeout(()=>p.remove(),9500)}
 flowerBtn.addEventListener('mouseenter',makePetal);
+
+// Уроки, прогресс и цветочная атмосфера AlonsoTap.
+const lessonData=[
+ {title:'Домашний ряд',desc:'Поставь пальцы на базовые клавиши: левая рука — A, S, D, F; правая — J, K, L, ;. На клавишах F и J обычно есть небольшие выступы — ориентируйся на них, не глядя вниз.',exercise:'Мини-задание: найди F и J на клавиатуре, затем набери короткую строку из домашнего ряда.',extra:'Совет: плечи расслаблены, запястья не зажаты. Возвращай пальцы в исходное положение после движения.'},
+ {title:'Сначала без ошибок',desc:'Снизь скорость примерно до комфортной. Смотри на текст и старайся нажимать каждую клавишу осознанно. Ошибся — спокойно продолжай.',exercise:'Мини-задание: выбери режим «Слова» и пройди один тест на 15 секунд, сохраняя точность.',extra:'Цель урока — не рекорд, а аккуратность. Скорость появится благодаря повторению.'},
+ {title:'Ровный поток',desc:'Печатай равномерно, будто отбиваешь спокойный ритм. Не ускоряйся на знакомых словах и не тормози перед длинными.',exercise:'Мини-задание: пройди тест на 30 секунд и попробуй удерживать одинаковый темп.',extra:'Делай короткие паузы между подходами. Комфорт важнее длительной тренировки через усталость.'},
+ {title:'Скорость без паники',desc:'Когда движения станут привычными, понемногу повышай темп. Следи за точностью и не пытайся компенсировать ошибки резкими нажатиями.',exercise:'Мини-задание: выбери тест на 60 секунд и сравни результат с предыдущими попытками.',extra:'Записывай личный прогресс. Даже небольшое улучшение — уже победа.'}
+];
+let activeLesson=0,completedLessons=JSON.parse(localStorage.getItem('alonsotap-lessons')||'[]');
+function updateLessonProgress(){const n=completedLessons.length;$('#lessonCount').textContent=n+' / 4';$('#lessonProgressBar').style.width=(n/4*100)+'%';document.querySelectorAll('.lesson-open').forEach(b=>{const done=completedLessons.includes(Number(b.dataset.lesson));b.textContent=done?'Пройдено ✓':'Начать урок →';});}
+function openLesson(index){activeLesson=index;const d=lessonData[index];$('#lessonKicker').textContent='УРОК 0'+(index+1)+' · ALONSOTAP';$('#lessonTitle').textContent=d.title;$('#lessonDescription').textContent=d.desc;$('#lessonExercise').textContent=d.exercise;$('#lessonExtra').textContent=d.extra;$('#lessonComplete').textContent=completedLessons.includes(index)?'Уже пройдено ✓':'Отметить пройденным ✓';$('#lessonModal').classList.add('show');}
+document.querySelectorAll('.lesson-open').forEach(b=>b.addEventListener('click',()=>openLesson(Number(b.dataset.lesson))));
+$('#lessonClose').addEventListener('click',()=>$('#lessonModal').classList.remove('show'));$('#lessonBack').addEventListener('click',()=>$('#lessonModal').classList.remove('show'));
+$('#lessonModal').addEventListener('click',e=>{if(e.target.id==='lessonModal')$('#lessonModal').classList.remove('show')});
+$('#lessonComplete').addEventListener('click',()=>{if(!completedLessons.includes(activeLesson)){completedLessons.push(activeLesson);localStorage.setItem('alonsotap-lessons',JSON.stringify(completedLessons));updateLessonProgress();toast('Урок пройден! Так держать ✿');}$('#lessonModal').classList.remove('show');});
+updateLessonProgress();
+function ambientPetal(){if(document.hidden||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const p=document.createElement('span');p.className='flower-petal';p.textContent=rand(['✿','❀','✾','✽']);p.style.left=(Math.random()*100)+'vw';p.style.setProperty('--drift',(Math.random()*130-65)+'px');p.style.animationDuration=(7+Math.random()*5)+'s';p.style.fontSize=(11+Math.random()*12)+'px';document.body.append(p);setTimeout(()=>p.remove(),12500);}
+setInterval(ambientPetal,2400);
+
 buildKeyboard();reset();updateStats();
 })();
 </script>
