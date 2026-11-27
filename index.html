@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b12">
+<title>AlonsoTap — тренажёр печати</title>
+<style>
+:root{--bg:#090b12;--panel:#111522;--panel2:#171d2d;--line:rgba(222,231,255,.1);--text:#eef2ff;--muted:#858da5;--accent:#a78bfa;--accent2:#5eead4;--bad:#fb7185;--good:#5eead4;--shadow:0 25px 80px #0008;--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:radial-gradient(ellipse at 12% 0%,#6d45bd26,transparent 35%),radial-gradient(ellipse at 90% 30%,#1bbaa51a,transparent 32%),linear-gradient(145deg,#090b12,#0d101b 60%,#090b12)}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:10;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.13em;font-size:14px}.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(140deg,var(--accent),#6254d9);display:grid;place-items:center;box-shadow:0 7px 25px #9271ee55;color:#0b0c14;font-weight:1000;font-size:18px;transform:rotate(-8deg)}
+.brand span:last-child{color:var(--muted);font-size:10px;font-weight:600;letter-spacing:.18em;margin-left:2px}
+.top-right{display:flex;align-items:center;gap:10px}.status{font:10px var(--mono);color:var(--accent2);letter-spacing:.1em;display:flex;align-items:center;gap:8px}.dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 12px var(--accent2);animation:pulse 2s infinite}
+.iconbtn{width:37px;height:37px;border:1px solid var(--line);border-radius:11px;background:#ffffff06;color:var(--muted);cursor:pointer;transition:.25s}.iconbtn:hover{border-color:#a78bfa;color:var(--text);transform:translateY(-2px) scale(1.09);box-shadow:0 0 22px #a78bfa35}
+button,.action,.tab,.choice,.lang{ -webkit-tap-highlight-color:transparent }
+button:not(:disabled){transition:transform .24s cubic-bezier(.2,.85,.25,1.35),box-shadow .24s,border-color .24s,color .24s,background .24s}
+button:not(:disabled):hover{transform:translateY(-2px) scale(1.035);border-color:#a78bfa;color:var(--text);box-shadow:0 0 0 1px #a78bfa22,0 8px 24px #8b5cf633}
+button:not(:disabled):active{transform:translateY(1px) scale(.97);box-shadow:0 2px 8px #8b5cf622}
+.flower-wrap{position:relative}
+.flower-toggle{font-size:17px;color:#c4b5fd}
+.flower-menu{position:absolute;right:0;top:48px;width:220px;padding:15px;background:linear-gradient(145deg,#1b2031,#111522);border:1px solid #a78bfa55;border-radius:15px;box-shadow:0 18px 55px #0009,0 0 30px #a78bfa12;z-index:25;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.96);transform-origin:top right;transition:.24s cubic-bezier(.2,.8,.2,1)}
+.flower-menu.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.flower-menu-title{font:10px var(--mono);letter-spacing:.16em;color:#c4b5fd}
+.flower-menu-sub{font-size:10px;color:var(--muted);margin:6px 0 13px}
+.flower-options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.flower-option{border:1px solid var(--line);border-radius:10px;background:#ffffff05;color:var(--muted);padding:9px 3px;display:grid;gap:4px;justify-items:center;cursor:pointer}
+.flower-option span{font-size:22px;color:var(--flower,#c4b5fd);line-height:1}
+.flower-option small{font-size:9px}
+.flower-option.active{border-color:var(--flower,#a78bfa);background:#a78bfa12;color:var(--text);box-shadow:0 0 18px #a78bfa18}
+.flower-foot{font:9px var(--mono);color:#727b92;text-align:center;margin-top:12px}
+.flower-petal{position:fixed;top:-30px;z-index:12;pointer-events:none;color:var(--flower,#c4b5fd);font-size:15px;opacity:0;animation:petalFall linear forwards;text-shadow:0 0 14px currentColor}
+@keyframes petalFall{0%{opacity:0;transform:translate3d(0,-10px,0) rotate(0)}12%{opacity:.7}85%{opacity:.5}100%{opacity:0;transform:translate3d(var(--drift),105vh,0) rotate(420deg)}}
+body.flower-rose{--flower:#f0a6c2}body.flower-mint{--flower:#82dfc4}body.flower-violet{--flower:#c4b5fd}
+body.flower-rose .logo{background:linear-gradient(140deg,#f0a6c2,#b65c8a)}body.flower-mint .logo{background:linear-gradient(140deg,#82dfc4,#319d89)}
+
+.hero{padding:54px 0 30px;display:flex;align-items:flex-end;justify-content:space-between;gap:30px}.kicker{color:var(--accent2);font:10px var(--mono);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:9px}.kicker:before{content:"";width:20px;height:1px;background:var(--accent2)}
+h1{font-size:clamp(38px,6vw,65px);letter-spacing:-.065em;line-height:.98;margin:15px 0 13px;font-weight:780}h1 span{background:linear-gradient(100deg,#c4b5fd,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{margin:0;color:var(--muted);font-size:13px;line-height:1.7;max-width:520px}.hero-stat{display:flex;gap:26px;padding-bottom:5px}.hero-stat div{min-width:65px}.hero-stat b{display:block;font:22px var(--mono);letter-spacing:-.06em}.hero-stat small{font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:18px;align-items:start}.maincol{min-width:0}.panel{background:linear-gradient(145deg,#151a29ee,#101522ee);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);backdrop-filter:blur(16px)}
+.toolbar{padding:17px 19px;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs,.seg{display:flex;gap:4px;padding:4px;background:#080b13;border:1px solid var(--line);border-radius:11px}.tab,.seg button{border:0;background:transparent;color:var(--muted);font:11px inherit;padding:9px 13px;border-radius:8px;cursor:pointer;transition:.2s}.tab.active,.seg button.active{background:#28233e;color:#d9ceff;box-shadow:inset 0 0 0 1px #a78bfa35}
+.settings{display:flex;align-items:center;gap:13px;flex-wrap:wrap}.setting-label{font:9px var(--mono);color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-right:6px}
+.language{display:flex;gap:5px}.lang{background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--muted);font:10px var(--mono);padding:7px 9px;cursor:pointer}.lang.active{color:var(--accent2);border-color:#5eead455;background:#5eead40b}
+.test-area{padding:22px 23px 18px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:19px}.metric{padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:#ffffff03}.metric strong{display:block;font:23px var(--mono);letter-spacing:-.06em}.metric span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:5px}
+.progress{height:3px;background:#ffffff0b;border-radius:9px;overflow:hidden;margin-bottom:21px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 14px var(--accent);transition:width .15s}
+.prompt-wrap{position:relative;min-height:155px;padding:7px 2px 15px;cursor:text}.prompt{font:clamp(17px,2.1vw,21px)/1.95 var(--mono);letter-spacing:-.045em;color:#626b82;user-select:none;overflow-wrap:anywhere}.char{position:relative;transition:color .08s}.char.correct{color:#e5e7f3}.char.wrong{color:var(--bad);background:#fb71851c;border-radius:3px}.char.current{color:var(--text)}.char.current:before{content:"";position:absolute;left:0;bottom:-3px;width:2px;height:1.25em;background:var(--accent2);border-radius:2px;animation:caret 1s steps(2) infinite;box-shadow:0 0 10px var(--accent2)}@keyframes caret{50%{opacity:0}}
+.typing-input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;left:-1000px}.prompt-hint{display:flex;justify-content:space-between;gap:10px;color:#687187;font:9px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 23px;border-top:1px solid var(--line);flex-wrap:wrap}.left-controls,.right-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.duration{display:flex;gap:4px}.duration button{border:1px solid transparent;background:transparent;color:var(--muted);padding:8px 10px;border-radius:8px;font:10px var(--mono);cursor:pointer}.duration button.active{border-color:#a78bfa55;color:#d8caff;background:#a78bfa12}
+.action{border:1px solid var(--line);background:#ffffff06;color:var(--text);padding:10px 14px;border-radius:9px;font-size:11px;cursor:pointer;transition:.25s}.action:hover{border-color:var(--accent);transform:translateY(-2px)}.action.primary{background:linear-gradient(110deg,#a78bfa,#7c6ce5);border:0;color:#0b0b13;font-weight:800;box-shadow:0 7px 20px #8b70e533}.action.primary:hover{box-shadow:0 9px 30px #8b70e566}
+.side{display:grid;gap:15px}.sidepanel{padding:18px}.side-title{font-size:11px;font-weight:750;display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.side-title span{color:var(--muted);font:9px var(--mono)}
+.record{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}.record:first-of-type{border-top:0}.record small{color:var(--muted);font-size:10px}.record b{font:15px var(--mono)}.record b em{font-size:9px;color:var(--muted);font-style:normal}
+.tip{font-size:11px;line-height:1.7;color:var(--muted)}.tip strong{color:var(--accent2);font-weight:600}
+kbd{font:10px var(--mono);border:1px solid #ffffff25;border-bottom-width:2px;border-radius:5px;padding:3px 6px;color:#c5c9d8;background:#ffffff08}
+.keyboard{padding:16px 13px 14px;perspective:700px}.keyrows{display:grid;gap:5px;transform:rotateX(8deg);transform-style:preserve-3d}.keyrow{display:flex;justify-content:center;gap:4px}.key{height:27px;min-width:20px;flex:1;max-width:32px;border-radius:5px;border:1px solid #ffffff14;background:linear-gradient(145deg,#242b3d,#151a28);box-shadow:0 3px 0 #090c14,0 5px 8px #0006;display:grid;place-items:center;color:#7e879f;font:8px var(--mono);transition:.12s}.key.wide{max-width:48px}.key.space{max-width:none;flex:5}.key.active{color:#11131d;background:linear-gradient(145deg,var(--accent2),#5abeb1);box-shadow:0 0 18px #5eead455,0 2px 0 #297d74;transform:translateY(2px)}
+footer{display:flex;justify-content:space-between;gap:15px;padding:25px 0 35px;color:#596176;font:9px var(--mono);letter-spacing:.08em}
+.overlay{position:fixed;inset:0;z-index:30;background:#05070dcc;backdrop-filter:blur(12px);display:none;place-items:center;padding:20px}.overlay.show{display:grid;animation:fade .2s}.modal{width:min(480px,100%);padding:30px;border:1px solid var(--line);border-radius:20px;background:#151a29;box-shadow:var(--shadow);animation:pop .35s cubic-bezier(.2,.8,.2,1)}@keyframes pop{from{transform:translateY(15px) scale(.97);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal h2{font-size:29px;letter-spacing:-.05em;margin:0 0 8px}.modal p{font-size:12px;color:var(--muted);line-height:1.7}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:22px 0}.result-cell{padding:15px;border:1px solid var(--line);border-radius:12px;background:#ffffff04}.result-cell b{font:26px var(--mono);display:block}.result-cell small{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);background:#20283a;border:1px solid var(--line);padding:11px 16px;border-radius:10px;color:var(--text);font:11px var(--mono);opacity:0;pointer-events:none;transition:.3s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
+body.light{--bg:#e9eaf1;--panel:#fff;--panel2:#f6f7fb;--line:rgba(20,25,45,.13);--text:#171a29;--muted:#737b90;--shadow:0 25px 80px #39405b1c;background:#e9eaf1}body.light:before{background:radial-gradient(ellipse at 12% 0%,#a78bfa38,transparent 35%),radial-gradient(ellipse at 90% 30%,#5eead433,transparent 32%)}body.light .panel{background:#ffffffd9}body.light .tabs,body.light .seg{background:#eff0f6}body.light .metric{background:#fff}body.light .prompt .char.correct{color:#24283a}body.light .key{background:linear-gradient(145deg,#fff,#e4e6ef);color:#72798e;box-shadow:0 3px 0 #c8cbd8,0 5px 8px #0001}body.light .modal{background:#fff}body.light .overlay{background:#c9cbd6cc}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.keyboard{grid-column:1/-1}.hero-stat{display:none}}
+@media(max-width:560px){.flower-menu{right:-84px;width:210px}.wrap{width:calc(100% - 24px)}.topbar{height:64px}.status{display:none}.hero{padding:38px 0 23px}h1{font-size:43px}.subtitle{font-size:12px}.toolbar{padding:13px}.settings{width:100%;justify-content:space-between}.test-area{padding:15px 14px}.metrics{gap:6px}.metric{padding:10px 8px}.metric strong{font-size:19px}.metric span{font-size:8px}.prompt-wrap{min-height:190px}.prompt{font-size:16px;line-height:2}.controls{padding:14px;align-items:flex-start}.left-controls,.right-controls{width:100%;justify-content:space-between}.side{grid-template-columns:1fr}.keyboard{grid-column:auto}.key{height:25px;min-width:14px;font-size:7px}.keyrow{gap:3px}.toolbar .tabs{width:100%}.tab{flex:1}.prompt-hint{font-size:8px}footer{font-size:8px;flex-direction:column}}
+
+/* AlonsoTap typography refresh: larger, bolder and easier to read */
+body{font-size:16px;font-weight:550}
+.brand{font-size:17px;font-weight:950;letter-spacing:.08em}
+.brand span:last-child{font-size:11px;font-weight:750}
+.kicker{font-size:12px;font-weight:800}
+h1{font-size:clamp(43px,6.5vw,72px);font-weight:900;letter-spacing:-.055em}
+.subtitle{font-size:15px;font-weight:550;line-height:1.75}
+.hero-stat b{font-size:25px;font-weight:850}
+.hero-stat small{font-size:11px;font-weight:750}
+.tab,.seg button{font-size:13px;font-weight:750}
+.setting-label{font-size:11px;font-weight:800}
+.lang{font-size:12px;font-weight:800}
+.metric strong{font-size:26px;font-weight:850}
+.metric span{font-size:11px;font-weight:800}
+.prompt{font-size:clamp(20px,2.4vw,25px);font-weight:650;line-height:1.9;letter-spacing:-.035em}
+.prompt-hint{font-size:11px;font-weight:700}
+.duration button{font-size:12px;font-weight:800}
+.action{font-size:13px;font-weight:750}
+.action.primary{font-weight:900}
+.side-title{font-size:13px;font-weight:900}
+.side-title span{font-size:10px;font-weight:700}
+.record small{font-size:12px;font-weight:650}
+.record b{font-size:17px;font-weight:850}
+.tip{font-size:13px;font-weight:550;line-height:1.8}
+.tip strong{font-weight:850}
+kbd{font-size:11px;font-weight:750}
+.key{font-size:9px;font-weight:700}
+.flower-menu-title{font-size:11px;font-weight:800}
+.flower-menu-sub{font-size:12px;font-weight:600}
+.flower-option small{font-size:10px;font-weight:750}
+.flower-foot{font-size:10px;font-weight:650}
+.modal h2{font-weight:900}
+.modal p{font-size:14px;font-weight:550}
+.result-cell b{font-weight:900}
+.result-cell small{font-size:11px;font-weight:800}
+.toast{font-size:12px;font-weight:750}
+footer{font-size:10px;font-weight:750}
+@media(max-width:560px){
+  .brand{font-size:15px}.brand span:last-child{font-size:9px}
+  h1{font-size:46px}.subtitle{font-size:14px}
+  .prompt{font-size:19px;line-height:1.95}
+  .metric strong{font-size:21px}.metric span{font-size:9px}
+  .tab{font-size:12px}.action{font-size:12px}
+  .record small{font-size:12px}.tip{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="wrap">
+<header class="topbar">
+  <div class="brand"><div class="logo">A</div>AlonsoTap <span>KEYBOARD LAB</span></div>
+  <div class="top-right"><div class="status"><i class="dot"></i> SYSTEM READY</div><div class="flower-wrap"><button class="iconbtn flower-toggle" id="flowerBtn" title="Цветочное меню" aria-expanded="false">✿</button><div class="flower-menu" id="flowerMenu"><div class="flower-menu-title">МАЛЕНЬКИЙ САД</div><div class="flower-menu-sub">Выбери настроение</div><div class="flower-options"><button class="flower-option active" data-flower="violet"><span>✿</span><small>Фиалка</small></button><button class="flower-option" data-flower="rose"><span>❀</span><small>Роза</small></button><button class="flower-option" data-flower="mint"><span>✾</span><small>Мята</small></button></div><div class="flower-foot">немного красоты между строк</div></div></div><button class="iconbtn" id="themeBtn" title="Сменить тему">◐</button><button class="iconbtn" id="soundBtn" title="Звук">♫</button></div>
+</header>
+<section class="hero">
+  <div><div class="kicker">Тренируй точность. Лови поток.</div><h1>Печатай быстрее.<br><span>Думай свободнее.</span></h1><p class="subtitle">Минималистичная лаборатория слепой печати. Никакой суеты — только ты, клавиатура и ритм.</p></div>
+  <div class="hero-stat"><div><b id="heroBest">—</b><small>лучший WPM</small></div><div><b id="heroTests">0</b><small>тестов</small></div></div>
+</section>
+<div class="layout">
+<main class="maincol">
+<section class="panel">
+  <div class="toolbar">
+    <div class="tabs"><button class="tab active" data-mode="words">Слова</button><button class="tab" data-mode="text">Текст</button><button class="tab" data-mode="quotes">Цитаты</button></div>
+    <div class="settings"><span class="setting-label">Язык</span><div class="language"><button class="lang active" data-lang="ru">RU</button><button class="lang" data-lang="en">EN</button></div></div>
+  </div>
+  <div class="test-area">
+    <div class="metrics">
+      <div class="metric"><strong id="wpm">0</strong><span>WPM</span></div>
+      <div class="metric"><strong id="accuracy">100%</strong><span>Точность</span></div>
+      <div class="metric"><strong id="timer">30</strong><span>Секунды</span></div>
+      <div class="metric"><strong id="errors">0</strong><span>Ошибки</span></div>
+    </div>
+    <div class="progress"><i id="progress"></i></div>
+    <div class="prompt-wrap" id="promptWrap" tabindex="0" aria-label="Область набора текста">
+      <div class="prompt" id="prompt"></div>
+      <input class="typing-input" id="input" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <div class="prompt-hint"><span>Нажми на текст и начни печатать</span><span id="charCount">0 / 0</span></div>
+  </div>
+  <div class="controls">
+    <div class="left-controls"><span class="setting-label">Время</span><div class="duration"><button data-duration="15">15</button><button data-duration="30" class="active">30</button><button data-duration="60">60</button><button data-duration="120">120</button></div><span class="setting-label">сек</span></div>
+    <div class="right-controls"><button class="action" id="restart">↻ Сбросить</button><button class="action primary" id="startBtn">Начать тест <span>→</span></button></div>
+  </div>
+</section>
+</main>
+<aside class="side">
+  <section class="panel sidepanel">
+    <div class="side-title">ТВОЙ ПРОГРЕСС <span>LOCAL STATS</span></div>
+    <div class="record"><small>Лучший результат</small><b id="bestSide">— <em>WPM</em></b></div>
+    <div class="record"><small>Средняя скорость</small><b id="avgSide">— <em>WPM</em></b></div>
+    <div class="record"><small>Всего тестов</small><b id="testsSide">0</b></div>
+    <div class="record"><small>Личная точность</small><b id="accSide">— <em>%</em></b></div>
+  </section>
+  <section class="panel sidepanel">
+    <div class="side-title">МИКРО-СОВЕТ <span>TIP 01</span></div>
+    <p class="tip" id="tipText">Не смотри на клавиатуру. <strong>Пальцы должны запоминать путь</strong> сами — сначала медленно, потом быстрее.</p>
+  </section>
+  <section class="panel keyboard">
+    <div class="side-title">КЛАВИШИ <span>LIVE INPUT</span></div>
+    <div class="keyrows" id="keyboard"></div>
+  </section>
+</aside>
+</div>
+<footer><span>ALONSOTAP / BUILD YOUR RHYTHM</span><span>ТВОИ РЕЗУЛЬТАТЫ СОХРАНЯЮТСЯ НА ЭТОМ УСТРОЙСТВЕ</span></footer>
+</div>
+<div class="overlay" id="overlay"><div class="modal">
+  <div class="kicker">Сессия завершена</div><h2>Хороший ритм.</h2><p id="resultText">Твой результат сохранён. Каждая тренировка — ещё один шаг к свободной печати.</p>
+  <div class="result-grid"><div class="result-cell"><b id="finalWpm">0</b><small>слов в минуту</small></div><div class="result-cell"><b id="finalAcc">100%</b><small>точность</small></div><div class="result-cell"><b id="finalErrors">0</b><small>ошибки</small></div><div class="result-cell"><b id="finalChars">0</b><small>символов</small></div></div>
+  <div class="modal-actions"><button class="action" id="closeModal">Закрыть</button><button class="action primary" id="nextTest">Ещё попытка →</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const words={
+ru:"абстракция алгоритм атмосфера баланс бесконечность вдохновение внимание горизонт движение задача идея импульс история клавиатура концентрация космос культура лаборатория момент наблюдение ощущение перспектива привычка пространство практика решение результат ритм свобода скорость система случайность сознание техника технология тишина точность удовольствие фокус форма функция цифровой человек энергия эксперимент эстетика",
+en:"abstract algorithm atmosphere balance beautiful beyond breeze bright build calm capture challenge change clarity code color curious design digital dream dynamic energy explore focus flow focus freedom future gentle growth imagine improve infinite inspire journey keyboard language learning light motion music nature observe patience pattern perspective precision progress rhythm silence simple skill smooth space speed spirit story structure subtle system texture think time transform universe vision wonder"
+};
+const texts={
+ru:["Скорость приходит не тогда, когда ты торопишься, а когда каждое движение становится точным и естественным. Найди свой ритм и позволь пальцам двигаться свободно.","Большие перемены начинаются с маленьких повторений. Не стремись быть идеальным с первой попытки: замечай ошибки, сохраняй спокойствие и продолжай движение.","Технологии меняют мир, но внимание по-прежнему остаётся самым ценным ресурсом. Умение сосредоточиться помогает создавать вещи, которые действительно имеют значение."],
+en:["The secret of getting ahead is getting started. Small steps create momentum, and steady practice turns difficult movements into natural habits.","Great things are not done by impulse, but by a series of small things brought together. Stay curious, keep learning, and enjoy the process.","Focus on the next step, not the whole staircase. Every minute of practice is a quiet investment in your future skills."]
+};
+const quotes={ru:["«Совершенство достигается не тогда, когда нечего добавить, а когда нечего убрать».","«Путь в тысячу миль начинается с одного шага».","«Простота — высшая форма утончённости».","«Великие дела совершаются не силой, а настойчивостью». "],en:["“Simplicity is the ultimate sophistication.”","“The secret of getting ahead is getting started.”","“Great things are done by a series of small things brought together.”","“It always seems impossible until it is done.”"]};
+const tips=["Не смотри на клавиатуру. <strong>Пальцы должны запоминать путь</strong> сами — сначала медленно, потом быстрее.","Сохраняй ровный темп. <strong>Стабильность важнее рывков:</strong> скорость придёт с практикой.","Сиди удобно, расслабь плечи и держи запястья свободно. <strong>Комфорт помогает точности.</strong>","Не исправляй каждую ошибку в панике. <strong>Продолжай печатать</strong> и следи за ритмом.","Смотри на следующий символ, а не на тот, который уже набираешь. <strong>Думай на один шаг вперёд.</strong>"];
+let mode='words',lang='ru',duration=30,timeLeft=30,started=false,finished=false,interval=null,typed='',target='',errors=0,totalTyped=0,correctChars=0,sound=true,audioCtx=null;
+let history=JSON.parse(localStorage.getItem('typeflow-history')||'[]');
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+function generate(){if(mode==='words'){let a=words[lang].split(' '),out=[];for(let i=0;i<65;i++)out.push(rand(a));return out.join(' ')}if(mode==='quotes')return rand(quotes[lang]);return rand(texts[lang])+" "+rand(texts[lang]);}
+function renderPrompt(){let p=$('#prompt');p.innerHTML='';[...target].forEach((ch,i)=>{let s=document.createElement('span');s.className='char'+(i<typed.length?(typed[i]===ch?' correct':' wrong'):'')+(i===typed.length?' current':'');s.textContent=ch===' '?' ':ch;p.append(s)});$('#charCount').textContent=`${typed.length} / ${target.length}`;$('#progress').style.width=(typed.length/target.length*100)+'%'}
+function metrics(){let elapsed=duration-timeLeft,mins=Math.max(elapsed/60,1/60),wpm=Math.round((correctChars/5)/mins)||0,acc=totalTyped?Math.round(correctChars/totalTyped*100):100;$('#wpm').textContent=wpm;$('#accuracy').textContent=acc+'%';$('#timer').textContent=timeLeft;$('#errors').textContent=errors;return{wpm,acc}}
+function reset(){clearInterval(interval);started=false;finished=false;timeLeft=duration;typed='';errors=0;totalTyped=0;correctChars=0;target=generate();$('#input').value='';$('#timer').textContent=duration;$('#wpm').textContent='0';$('#accuracy').textContent='100%';$('#errors').textContent='0';$('#startBtn').innerHTML='Начать тест <span>→</span>';renderPrompt();$('#input').blur()}
+function start(){if(finished)return;if(!started){started=true;$('#startBtn').textContent='Тест идёт…';interval=setInterval(()=>{timeLeft--;metrics();if(timeLeft<=0)finish()},1000)}$('#input').focus()}
+function finish(){if(finished)return;finished=true;started=false;clearInterval(interval);let m=metrics();$('#finalWpm').textContent=m.wpm;$('#finalAcc').textContent=m.acc+'%';$('#finalErrors').textContent=errors;$('#finalChars').textContent=typed.length;$('#resultText').textContent=m.wpm>=50?'Отличный темп! Сохраняй точность и продолжай развиваться.': 'Твой результат сохранён. Каждая тренировка — ещё один шаг к свободной печати.';history.push({wpm:m.wpm,acc:m.acc,date:Date.now()});history=history.slice(-50);localStorage.setItem('typeflow-history',JSON.stringify(history));updateStats();$('#overlay').classList.add('show');$('#startBtn').textContent='Тест завершён';}
+function updateStats(){let best=history.length?Math.max(...history.map(x=>x.wpm)):0,avg=history.length?Math.round(history.reduce((s,x)=>s+x.wpm,0)/history.length):0,acc=history.length?Math.round(history.reduce((s,x)=>s+x.acc,0)/history.length):0;$('#heroBest').textContent=best||'—';$('#heroTests').textContent=history.length;$('#bestSide').innerHTML=(best||'—')+' <em>WPM</em>';$('#avgSide').innerHTML=(avg||'—')+' <em>WPM</em>';$('#testsSide').textContent=history.length;$('#accSide').innerHTML=(acc||'—')+' <em>%</em>';}
+function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800)}
+function beep(){if(!sound)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=660;g.gain.value=.018;o.start();o.stop(audioCtx.currentTime+.035)}catch(e){}}
+function buildKeyboard(){let rows=['qwertyuiop','asdfghjkl','zxcvbnm'];$('#keyboard').innerHTML='';rows.forEach(row=>{let r=document.createElement('div');r.className='keyrow';[...row].forEach(k=>{let e=document.createElement('div');e.className='key';e.dataset.key=k;e.textContent=k.toUpperCase();r.append(e)});$('#keyboard').append(r)});let r=document.createElement('div');r.className='keyrow';let space=document.createElement('div');space.className='key space';space.dataset.key=' ';space.textContent='SPACE';r.append(space);$('#keyboard').append(r)}
+function updateKey(k){document.querySelectorAll('.key.active').forEach(e=>e.classList.remove('active'));let e=document.querySelector(`.key[data-key="${CSS.escape(k.toLowerCase())}"]`);if(e){e.classList.add('active');setTimeout(()=>e.classList.remove('active'),160)}}
+$('#promptWrap').addEventListener('click',()=>{$('#input').focus()});
+$('#input').addEventListener('input',e=>{if(finished)return;let val=e.target.value;if(val.length>target.length){val=val.slice(0,target.length);e.target.value=val}if(val.length&&!started)start();typed=val;totalTyped=typed.length;errors=0;correctChars=0;for(let i=0;i<typed.length;i++){if(typed[i]===target[i])correctChars++;else errors++}metrics();renderPrompt();let last=typed.slice(-1);if(last)updateKey(last);if(typed.length===target.length){if(mode==='words'){target+= ' '+generate();renderPrompt()}else finish()}});
+$('#input').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();reset()}});
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));mode=b.dataset.mode;reset()});
+document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('active',x===b));lang=b.dataset.lang;reset()});
+document.querySelectorAll('[data-duration]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-duration]').forEach(x=>x.classList.toggle('active',x===b));duration=Number(b.dataset.duration);reset()});
+$('#restart').onclick=reset;$('#startBtn').onclick=start;$('#closeModal').onclick=()=>$('#overlay').classList.remove('show');$('#nextTest').onclick=()=>{$('#overlay').classList.remove('show');reset();start()};
+$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')$('#overlay').classList.remove('show')});
+$('#themeBtn').onclick=()=>{document.body.classList.toggle('light');localStorage.setItem('typeflow-theme',document.body.classList.contains('light')?'light':'dark')};
+if(localStorage.getItem('typeflow-theme')==='light')document.body.classList.add('light');
+$('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').style.color=sound?'var(--accent2)':'var(--muted)';toast(sound?'Звук включён':'Звук выключен')};
+setInterval(()=>{$('#tipText').innerHTML=rand(tips)},12000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#overlay').classList.remove('show');return}if(e.ctrlKey||e.metaKey||e.altKey)return;if(!$('#overlay').classList.contains('show')&&e.key.length===1){$('#input').focus()}});
+// Компактное цветочное меню и лёгкий лепестковый эффект.
+const flowerBtn=$('#flowerBtn'),flowerMenu=$('#flowerMenu');
+flowerBtn.addEventListener('click',e=>{e.stopPropagation();const open=flowerMenu.classList.toggle('open');flowerBtn.setAttribute('aria-expanded',String(open))});
+document.addEventListener('click',e=>{if(!e.target.closest('.flower-wrap')){flowerMenu.classList.remove('open');flowerBtn.setAttribute('aria-expanded','false')}});
+document.querySelectorAll('.flower-option').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.flower-option').forEach(x=>x.classList.toggle('active',x===b));document.body.classList.remove('flower-violet','flower-rose','flower-mint');document.body.classList.add('flower-'+b.dataset.flower);flowerMenu.classList.remove('open');flowerBtn.setAttribute('aria-expanded','false');makePetal();}));
+function makePetal(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const p=document.createElement('span');p.className='flower-petal';p.textContent=rand(['✿','❀','✾','✽']);p.style.left=(8+Math.random()*84)+'vw';p.style.setProperty('--drift',(Math.random()*150-75)+'px');p.style.animationDuration=(5+Math.random()*4)+'s';document.body.append(p);setTimeout(()=>p.remove(),9500)}
+flowerBtn.addEventListener('mouseenter',makePetal);
+buildKeyboard();reset();updateStats();
+})();
+</script>
+</body></html>
